@@ -21,7 +21,7 @@ public class UserService extends BaseService {
     }
 
     public ResponseDTO<UserDTO> registerUser(RegisterDTO registerDTO) {
-        Optional<UserEntity> checkUser = userRepository.findByUsername(registerDTO.getUserName());
+        Optional<UserEntity> checkUser = userRepository.findByUserName(registerDTO.getUserName());
         if(checkUser != null){
             throw new ServiceException("Đã tồn tại tên " + registerDTO.getUserName());
         }
