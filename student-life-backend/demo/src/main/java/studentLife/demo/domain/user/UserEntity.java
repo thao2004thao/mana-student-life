@@ -1,15 +1,14 @@
 package studentLife.demo.domain.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import studentLife.demo.domain.AbstractEntity;
+import studentLife.demo.domain.course.CourseEntity;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +27,11 @@ public class UserEntity extends AbstractEntity implements Serializable {
     private String password;
     @Column(name = "rePassword")
     private String rePassword;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseEntity> courses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExpenseEntity> expenses;
 }
