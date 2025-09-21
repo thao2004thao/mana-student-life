@@ -8,6 +8,7 @@ import studentLife.demo.repository.user.UserRepository;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.base.BaseService;
 import studentLife.demo.service.dto.user.UserDTO;
+import studentLife.demo.service.dto.user.crud.LoginDTO;
 import studentLife.demo.service.dto.user.crud.RegisterDTO;
 
 import java.util.Optional;
@@ -22,8 +23,11 @@ public class UserService extends BaseService {
 
     public ResponseDTO<UserDTO> registerUser(RegisterDTO registerDTO) {
         Optional<UserEntity> checkUser = userRepository.findByUserName(registerDTO.getUserName());
-        if(checkUser != null){
-            throw new ServiceException("Đã tồn tại tên " + registerDTO.getUserName());
+        if(checkUser.isPresent()){
+            throw new ServiceException("Tên người dùng đã tồn tại " + registerDTO.getUserName());
+        }
+        if(!registerDTO.getPassword().equals(registerDTO.getRePassword())){
+            throw new ServiceException("Xác nhận mật khẩu không đúng");
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setId(registerDTO.getId());
@@ -32,11 +36,30 @@ public class UserService extends BaseService {
         userEntity.setPassword(registerDTO.getPassword());
         userEntity.setRePassword(registerDTO.getRePassword());
 
+        UserEntity userSaved = userRepository.save(userEntity);
+
         ResponseDTO<UserDTO> responseDTO = new ResponseDTO<>();
         responseDTO.setStatus(String.valueOf(HttpStatus.OK));
-        responseDTO.setData(UserDTO.toDTO(userEntity));
+        responseDTO.setData(UserDTO.toDTO(userSaved));
 
         return responseDTO;
+    }
+
+    public ResponseDTO<UserDTO> loginUser(LoginDTO loginDTO){
+            Optional<UserEntity> userOpt = userRepository.findByUserName(loginDTO.getUsername());
+            if(userOpt.isEmpty()){
+                throw new ServiceException(" Không tồn tại tên người dùng"+ loginDTO.getUsername());
+            }
+            UserEntity userEntity = userOpt.get();
+            if(!userEntity.getPassword().equals(loginDTO.getPassword())){
+                throw new RuntimeException("Sai mật khẩu");
+            }
+
+            ResponseDTO<UserDTO> responseDTO = new ResponseDTO<>();
+            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+            responseDTO.setData(UserDTO.toDTO(userEntity));
+            return responseDTO;
+
     }
 
 

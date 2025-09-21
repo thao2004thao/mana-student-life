@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.course.CourseEntity;
+import studentLife.demo.domain.expense.ExpenseEntity;
+
 
 import java.io.Serializable;
 import java.util.List;

@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import studentLife.demo.domain.AbstractEntity;
+import studentLife.demo.domain.task.TaskEntity;
 import studentLife.demo.domain.user.UserEntity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
