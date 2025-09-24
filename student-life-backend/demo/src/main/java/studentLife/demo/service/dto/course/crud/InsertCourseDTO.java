@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InsertCourceDTO {
+public class InsertCourseDTO {
 
     private String nameCourse;
     private String description;
@@ -19,7 +19,7 @@ public class InsertCourceDTO {
     private LocalDateTime timeStudy;
     private String color;
 
-    public static CourseEntity toEntity(InsertCourceDTO courseDTO){
+    public static CourseEntity toEntity(InsertCourseDTO courseDTO){
         if(courseDTO == null) return null;
 
         CourseEntity courseEntity = new CourseEntity();

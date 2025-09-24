@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.business.course.CourseService;
 import studentLife.demo.service.dto.course.CourseDTO;
-import studentLife.demo.service.dto.course.crud.InsertCourceDTO;
+import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -18,13 +18,13 @@ public class CourseResource {
 
     @PostMapping("/add/{userId}")
     public ResponseDTO<CourseDTO> addCourse(@PathVariable String userId,
-                                            @RequestBody InsertCourceDTO course) {
+                                            @RequestBody InsertCourseDTO course) {
         return courseService.addCourse(userId, course);
     }
 
     @PutMapping("/update/{courseId}")
     public ResponseDTO<CourseDTO> updateCourse(@PathVariable String courseId,
-                                               @RequestBody InsertCourceDTO courseDTO) {
+                                               @RequestBody InsertCourseDTO courseDTO) {
         return courseService.updateCourse(courseId, courseDTO);
     }
 

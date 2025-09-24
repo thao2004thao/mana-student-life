@@ -8,7 +8,7 @@ import studentLife.demo.repository.course.CourseRepository;
 import studentLife.demo.repository.user.UserRepository;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.dto.course.CourseDTO;
-import studentLife.demo.service.dto.course.crud.InsertCourceDTO;
+import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
 
 @Service
 public class CourseService {
@@ -22,11 +22,11 @@ public class CourseService {
     }
 
     @Transactional
-    public ResponseDTO<CourseDTO> addCourse(String userId, InsertCourceDTO course) {
+    public ResponseDTO<CourseDTO> addCourse(String userId, InsertCourseDTO course) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User không tồn tại"));
 
-        CourseEntity courseEntity = InsertCourceDTO.toEntity(course);
+        CourseEntity courseEntity = InsertCourseDTO.toEntity(course);
         courseEntity.setUser(user);
 
         courseEntity = courseRepository.save(courseEntity);
@@ -40,7 +40,7 @@ public class CourseService {
 
     // Sửa khóa học
     @Transactional
-    public ResponseDTO<CourseDTO> updateCourse(String courseId, InsertCourceDTO courseDTO) {
+    public ResponseDTO<CourseDTO> updateCourse(String courseId, InsertCourseDTO courseDTO) {
         CourseEntity courseEntity = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course không tồn tại"));
 
