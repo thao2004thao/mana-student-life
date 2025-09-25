@@ -8,15 +8,16 @@ import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.business.user.UserService;
 import studentLife.demo.service.dto.user.UserDTO;
 import studentLife.demo.service.dto.user.crud.LoginDTO;
+import studentLife.demo.service.dto.user.crud.LoginResponseDTO;
 import studentLife.demo.service.dto.user.crud.RegisterDTO;
 
 @RestController
-@RequestMapping("/api/user")
-public class UerResource {
+@RequestMapping("/api/users")
+public class UserResource {
 
     private final UserService userService;
 
-    public UerResource(UserService userService) {
+    public UserResource(UserService userService) {
         this.userService = userService;
     }
 
@@ -26,7 +27,7 @@ public class UerResource {
     }
 
     @PostMapping("/login")
-    public ResponseDTO<UserDTO> loginUser(@RequestBody LoginDTO loginDTO){
+    public ResponseDTO<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO){
 
         return userService.loginUser(loginDTO);
     }

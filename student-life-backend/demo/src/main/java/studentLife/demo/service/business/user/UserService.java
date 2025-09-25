@@ -3,6 +3,7 @@ package studentLife.demo.service.business.user;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import studentLife.demo.domain.user.UserEntity;
 import studentLife.demo.repository.user.UserRepository;
 import studentLife.demo.security.JwtUtil;
@@ -10,6 +11,7 @@ import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.base.BaseService;
 import studentLife.demo.service.dto.user.UserDTO;
 import studentLife.demo.service.dto.user.crud.LoginDTO;
+import studentLife.demo.service.dto.user.crud.LoginResponseDTO;
 import studentLife.demo.service.dto.user.crud.RegisterDTO;
 
 import java.util.Optional;
@@ -46,31 +48,34 @@ public class UserService extends BaseService {
         return responseDTO;
     }
 
-    public ResponseDTO<LoginDTO> loginUser(LoginDTO loginDTO){
-        Optional<UserEntity> userOpt = userRepository.findByUserName(loginDTO.getUserName());
-        if(userOpt.isEmpty()){
-            throw new ServiceException("Không tồn tại tên người dùng " + loginDTO.getUserName());
+    @Transactional(readOnly = true)
+    public ResponseDTO<LoginResponseDTO> loginUser(LoginDTO loginDTO) {
+        // 1. Tìm user theo username
+        UserEntity user = userRepository.findByUserName(loginDTO.getUserName())
+                .orElseThrow(() -> new RuntimeException("Sai username hoặc password"));
+
+        // 2. Check password (ở đây giả sử chưa mã hóa, thực tế nên dùng BCrypt)
+        if (!user.getPassword().equals(loginDTO.getPassword())) {
+            throw new RuntimeException("Sai username hoặc password");
         }
 
-        UserEntity userEntity = userOpt.get();
-        if(!userEntity.getPassword().equals(loginDTO.getPassword())){
-            throw new RuntimeException("Sai mật khẩu");
-        }
+        // 3. Sinh token bằng JwtUtil
+        String token = JwtUtil.generateToken(user.getUserName());
 
-        String token = JwtUtil.generateToken(userEntity.getUserName());
-
-        LoginDTO loginResponse = new LoginDTO();
-        loginResponse.setUserName(userEntity.getUserName());
+        // 4. Chuẩn bị response
+        LoginResponseDTO loginResponse = new LoginResponseDTO();
+        loginResponse.setUserDTO(UserDTO.toDTO(user));
         loginResponse.setToken(token);
 
-        ResponseDTO<LoginDTO> responseDTO = new ResponseDTO<>();
-        responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+        ResponseDTO<LoginResponseDTO> responseDTO = new ResponseDTO<>();
+        responseDTO.setStatus(String.valueOf(HttpStatus.OK.value()));
         responseDTO.setData(loginResponse);
 
         return responseDTO;
     }
-
-
-
-
 }
+
+
+
+
+
