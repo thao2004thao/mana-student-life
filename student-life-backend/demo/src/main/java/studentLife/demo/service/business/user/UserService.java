@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import studentLife.demo.domain.user.UserEntity;
 import studentLife.demo.repository.user.UserRepository;
+import studentLife.demo.security.JwtUtil;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.base.BaseService;
 import studentLife.demo.service.dto.user.UserDTO;
@@ -45,22 +46,31 @@ public class UserService extends BaseService {
         return responseDTO;
     }
 
-    public ResponseDTO<UserDTO> loginUser(LoginDTO loginDTO){
-            Optional<UserEntity> userOpt = userRepository.findByUserName(loginDTO.getUsername());
-            if(userOpt.isEmpty()){
-                throw new ServiceException(" Không tồn tại tên người dùng"+ loginDTO.getUsername());
-            }
-            UserEntity userEntity = userOpt.get();
-            if(!userEntity.getPassword().equals(loginDTO.getPassword())){
-                throw new RuntimeException("Sai mật khẩu");
-            }
+    public ResponseDTO<LoginDTO> loginUser(LoginDTO loginDTO){
+        Optional<UserEntity> userOpt = userRepository.findByUserName(loginDTO.getUserName());
+        if(userOpt.isEmpty()){
+            throw new ServiceException("Không tồn tại tên người dùng " + loginDTO.getUserName());
+        }
 
-            ResponseDTO<UserDTO> responseDTO = new ResponseDTO<>();
-            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
-            responseDTO.setData(UserDTO.toDTO(userEntity));
-            return responseDTO;
+        UserEntity userEntity = userOpt.get();
+        if(!userEntity.getPassword().equals(loginDTO.getPassword())){
+            throw new RuntimeException("Sai mật khẩu");
+        }
 
+        String token = JwtUtil.generateToken(userEntity.getUserName());
+
+        LoginDTO loginResponse = new LoginDTO();
+        loginResponse.setUserName(userEntity.getUserName());
+        loginResponse.setToken(token);
+
+        ResponseDTO<LoginDTO> responseDTO = new ResponseDTO<>();
+        responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+        responseDTO.setData(loginResponse);
+
+        return responseDTO;
     }
+
+
 
 
 }

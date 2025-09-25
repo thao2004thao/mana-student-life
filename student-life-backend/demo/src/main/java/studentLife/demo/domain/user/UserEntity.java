@@ -25,9 +25,9 @@ public class UserEntity extends AbstractEntity implements Serializable {
     private String userName;
     @Column(name= "email")
     private String email;
-    @Column(name = " password")
+    @Column(name = "password")
     private String password;
-    @Column(name = "rePassword")
+    @Column(name = "repassword")
     private String rePassword;
 
 
