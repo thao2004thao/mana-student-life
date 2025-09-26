@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.course.CourseEntity;
 
@@ -17,8 +18,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name="task")
+@EntityListeners(AuditingEntityListener.class)
 public class TaskEntity extends AbstractEntity implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "title")

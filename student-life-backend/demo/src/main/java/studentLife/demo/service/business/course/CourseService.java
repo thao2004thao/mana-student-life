@@ -1,6 +1,10 @@
 package studentLife.demo.service.business.course;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import studentLife.demo.domain.course.CourseEntity;
@@ -9,6 +13,7 @@ import studentLife.demo.repository.user.UserRepository;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.dto.course.CourseDTO;
 import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
+import studentLife.demo.service.dto.course.crud.SearchCourseDTO;
 
 @Service
 public class CourseService {
@@ -22,19 +27,23 @@ public class CourseService {
     }
 
     @Transactional
-    public ResponseDTO<CourseDTO> addCourse(String userId, InsertCourseDTO course) {
-        var user = userRepository.findById(userId)
+    public ResponseDTO<CourseDTO> addCourse(InsertCourseDTO course) {
+        // Lấy username từ JWT
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Tìm user theo username
+        var user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new RuntimeException("User không tồn tại"));
 
         CourseEntity courseEntity = InsertCourseDTO.toEntity(course);
-        courseEntity.setUser(user);
+        courseEntity.setUser(user); // gắn user đang login
 
         courseEntity = courseRepository.save(courseEntity);
 
         ResponseDTO<CourseDTO> responseDTO = new ResponseDTO<>();
         responseDTO.setData(CourseDTO.toDTO(courseEntity));
         responseDTO.setStatus(String.valueOf(HttpStatus.OK));
-
         return responseDTO;
     }
 
@@ -73,8 +82,29 @@ public class CourseService {
         return responseDTO;
     }
 
+        @Transactional(readOnly = true)
+        public ResponseDTO<Page<CourseDTO>> searchCourses(SearchCourseDTO dto) {
+            var pageable = PageRequest.of(dto.getPageIndex(), dto.getPageSize());
 
+            Page<CourseEntity> page = courseRepository.searchCourses(
+                    dto.getNameCourse(),
+                    dto.getDescription(),
+                    dto.getRoom(),
+                    dto.getDayWeek(),
+                    dto.getColor(),
+                    dto.getTimeStudy(),
+                    pageable
+            );
 
-
-
+            ResponseDTO<Page<CourseDTO>> responseDTO = new ResponseDTO<>();
+            responseDTO.setData(page.map(CourseDTO::toDTO));
+            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+            return responseDTO;
+        }
 }
+
+
+
+
+
+

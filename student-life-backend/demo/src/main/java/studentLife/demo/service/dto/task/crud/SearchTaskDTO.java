@@ -1,4 +1,4 @@
-package studentLife.demo.service.dto.course.crud;
+package studentLife.demo.service.dto.task.crud;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,16 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SearchCourseDTO {
+public class SearchTaskDTO {
+
     private int pageSize;
     private int pageIndex;
 
-    private String nameCourse;
+    private String title;
     private String description;
-    private String room;
-    private String dayWeek;
-    private LocalDateTime timeStudy;
-    private String color;
-
-
+    private String status;
+    private String priority;
+    private LocalDateTime deadline;
 }

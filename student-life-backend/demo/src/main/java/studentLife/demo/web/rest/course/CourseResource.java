@@ -1,10 +1,12 @@
 package studentLife.demo.web.rest.course;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.business.course.CourseService;
 import studentLife.demo.service.dto.course.CourseDTO;
 import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
+import studentLife.demo.service.dto.course.crud.SearchCourseDTO;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -16,10 +18,9 @@ public class CourseResource {
         this.courseService = courseService;
     }
 
-    @PostMapping("/add/{userId}")
-    public ResponseDTO<CourseDTO> addCourse(@PathVariable String userId,
-                                            @RequestBody InsertCourseDTO course) {
-        return courseService.addCourse(userId, course);
+    @PostMapping("/add")
+    public ResponseDTO<CourseDTO> addCourse(@RequestBody InsertCourseDTO course) {
+        return courseService.addCourse(course);
     }
 
     @PutMapping("/update/{courseId}")
@@ -32,5 +33,10 @@ public class CourseResource {
     public ResponseDTO<String> deleteCourse(@PathVariable String courseId) {
         return courseService.deleteCourse(courseId);
     }
+    @PostMapping("/search")
+    public ResponseDTO<Page<CourseDTO>> searchCourses(@RequestBody SearchCourseDTO dto) {
+        return courseService.searchCourses(dto);
+    }
+
 
 }

@@ -50,19 +50,15 @@ public class UserService extends BaseService {
 
     @Transactional(readOnly = true)
     public ResponseDTO<LoginResponseDTO> loginUser(LoginDTO loginDTO) {
-        // 1. Tìm user theo username
         UserEntity user = userRepository.findByUserName(loginDTO.getUserName())
                 .orElseThrow(() -> new RuntimeException("Sai username hoặc password"));
 
-        // 2. Check password (ở đây giả sử chưa mã hóa, thực tế nên dùng BCrypt)
         if (!user.getPassword().equals(loginDTO.getPassword())) {
             throw new RuntimeException("Sai username hoặc password");
         }
 
-        // 3. Sinh token bằng JwtUtil
-        String token = JwtUtil.generateToken(user.getUserName());
+        String token = JwtUtil.generateRefreshToken(user.getUserName());
 
-        // 4. Chuẩn bị response
         LoginResponseDTO loginResponse = new LoginResponseDTO();
         loginResponse.setUserDTO(UserDTO.toDTO(user));
         loginResponse.setToken(token);

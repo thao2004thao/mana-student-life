@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.user.UserEntity;
 import studentLife.demo.enums.ExpenseCategory;
@@ -17,9 +18,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "expense")
+@EntityListeners(AuditingEntityListener.class)
 public class ExpenseEntity extends AbstractEntity implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "amount", nullable = false)

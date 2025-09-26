@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.task.TaskEntity;
 import studentLife.demo.domain.user.UserEntity;
@@ -17,10 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "course")
+@EntityListeners(AuditingEntityListener.class)
 public class CourseEntity extends AbstractEntity implements Serializable {
 
     @Id
-   private String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name_cource")
     private String nameCourse;

@@ -1,0 +1,384 @@
+{
+    "checksum": "f879c4a8167e5ee2cce173842b7797c6d765ec2512186c9864466f09cc00ae73",
+    "data": {
+    "id": "e1aba02f-f3b6-4c70-9b1b-bf7845e48f19",
+    "createdAt": 1758766711869,
+    "updatedAt": 1758766809060,
+    "title": "Fixing Java JwtDecoder Error",
+    "messages": [
+        {
+            "id": "c323732f-fd01-4324-9259-e6782bff1e1f",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "@Bean\n    public JwtDecoder jwtDecoder() {\n        // You need to replace this with your actual JWT issuer URI\n        // For example: \"https://your-auth-server.com\" or \"https://accounts.google.com\"\n        String issuerUri = \"https://your-jwt-issuer-uri\";",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Cannot resolve symbol 'JwtDecoder'"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "D:\\HK7\\DoAn\\student-life-backend\\demo\\src\\main\\java\\studentLife\\demo\\security\\SecurityConfig.java",
+                    "fsPath": "D:/HK7/DoAn/student-life-backend/demo/src/main/java/studentLife/demo/security/SecurityConfig.java",
+                    "content": "package studentLife.demo.security;\n\nimport org.springframework.context.annotation.Bean;\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\nimport org.springframework.security.oauth2.jwt.JwtDecoder;\nimport org.springframework.security.oauth2.jwt.NimbusJwtDecoder;\nimport org.springframework.security.web.SecurityFilterChain;\n\n@EnableWebSecurity\npublic class SecurityConfig {\n\n    @Bean\n    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {\n        http.csrf(csrf -> csrf.disable())\n                .authorizeHttpRequests(auth -> auth\n                        .requestMatchers(\"/student-information/search\").authenticated()\n                        .anyRequest().permitAll()\n                )\n                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()))); // dùng JWT Bearer\n\n        return http.build();\n    }\n\n    @Bean\n    public JwtDecoder jwtDecoder() {\n        // You need to replace this with your actual JWT issuer URI\n        // For example: \"https://your-auth-server.com\" or \"https://accounts.google.com\"\n        String issuerUri = \"https://your-jwt-issuer-uri\";\n        return NimbusJwtDecoder.withIssuerLocation(issuerUri).build();\n    }\n}\n",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1758766711874,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "@Bean\n    public JwtDecoder jwtDecoder() {\n        // You need to replace this with your actual JWT issuer URI\n        // For example: \"https://your-auth-server.com\" or \"https://accounts.google.com\"\n        String issuerUri = \"https://your-jwt-issuer-uri\";"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Cannot resolve symbol 'JwtDecoder'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "b04765f5-b9e1-4c81-971b-4ebaff288316",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see the issue in your SecurityConfig.java file. The `JwtDecoder` import is already present on line 6, but there seems to be an IDE resolution issue. Let me check the current file and fix any potential problems."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_014WRyybCf9HY9vr2YiCUbbU",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/src/main/java/studentLife/demo/security/SecurityConfig.java",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\src\\main\\java\\studentLife\\demo\\security\\SecurityConfig.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see that the `JwtDecoder` import is already present on line 6. The \"Cannot resolve symbol\" error might be due to missing dependencies in your project. Let me check your project's dependencies to see if the Spring Security OAuth2 JWT dependency is properly configured."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01K6dymTnDaYJaVZwED8VM5E",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I found the issue! Your `pom.xml` file is missing the Spring Security OAuth2 Resource Server dependency, which contains the `JwtDecoder` and `NimbusJwtDecoder` classes. You have `spring-boot-starter-security` but not the OAuth2 JWT support.\n\nLet me add the missing dependency to your `pom.xml`:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_011fYHk7K9ZSFdKLUKtL8Gi9",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check the exact formatting around the security dependency:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_011GZCpG8dP7rtVP1iscy3tq",
+                    "title": "",
+                    "statusText": "Invalid offset",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01A64U7dGJ2KPsrZ32cdJM8J",
+                    "title": "",
+                    "statusText": "Invalid offset",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me view the file again to see the exact content:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_014CjSsr43zragrwgfYhSJCA",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I can see the exact formatting. Let me add the OAuth2 Resource Server dependency after the security dependency:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01PQLJegMMcg1Fgx54FfatBt",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me try with the exact indentation from the file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01NpEr7Y5H9bawULhspCWcEP",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check the exact text around the security dependency and the closing dependencies tag:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01XgB4AhNQkP2oLnLmxNUsGw",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me try a different approach and add the dependency right after the security dependency:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01TbqqvLdLE6Df1VKV8R5cvt",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check the exact indentation by looking at the specific lines:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WZuMqMJdL86nV74J592fjX",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me try with the exact indentation using tabs:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012qaKooXnRVfrEAjyPxRUsb",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me create a new pom.xml file with the correct dependency added:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_0178kwjtA2QR6Q1hNG9krx9D",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "demo/pom.xml",
+                                "fsPath": "D:\\HK7\\DoAn\\student-life-backend\\demo\\pom.xml"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- D:/HK7/DoAn/student-life-backend/demo/pom.xml\n+++ D:/HK7/DoAn/student-life-backend/demo/pom.xml\n@@ -68,6 +68,10 @@\n \t\t\t<groupId>org.springframework.boot</groupId>\n \t\t\t<artifactId>spring-boot-starter-security</artifactId>\n \t\t</dependency>\n+\t\t<dependency>\n+\t\t\t<groupId>org.springframework.boot</groupId>\n+\t\t\t<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>\n+\t\t</dependency>\n \t</dependencies>\n \n \t<build>",
+                    "refToolCallId": "toolu_0178kwjtA2QR6Q1hNG9krx9D"
+                },
+                {
+                    "type": "text",
+                    "text": "Now let's refresh the Maven dependencies to make sure the new dependency is downloaded:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01KLZTVibmeKnye7HoCM1PNQ",
+                    "status": "IN_PROGRESS",
+                    "isHidden": true
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "demo/pom.xml",
+                            "patch": "@@ -31,16 +31,17 @@\n UTF-8%22?%3E\n+%0D\n %0A%3Cprojec\n@@ -137,16 +137,17 @@\n nstance%22\n+%0D\n %0A%09xsi:sc\n@@ -240,16 +240,17 @@\n .0.xsd%22%3E\n+%0D\n %0A%09%3Cmodel\n@@ -277,16 +277,17 @@\n Version%3E\n+%0D\n %0A%09%3Cparen\n@@ -288,16 +288,17 @@\n %3Cparent%3E\n+%0D\n %0A%09%09%3Cgrou\n@@ -335,16 +335,17 @@\n groupId%3E\n+%0D\n %0A%09%09%3Carti\n@@ -386,24 +386,25 @@\n /artifactId%3E\n+%0D\n %0A%09%09%3Cversion%3E\n@@ -418,16 +418,17 @@\n version%3E\n+%0D\n %0A%09%09%3Crela\n@@ -476,16 +476,17 @@\n tory --%3E\n+%0D\n %0A%09%3C/pare\n@@ -488,16 +488,17 @@\n /parent%3E\n+%0D\n %0A%09%3Cgroup\n@@ -521,16 +521,17 @@\n groupId%3E\n+%0D\n %0A%09%3Cartif\n@@ -553,16 +553,17 @@\n ifactId%3E\n+%0D\n %0A%09%3Cversi\n@@ -589,16 +589,17 @@\n version%3E\n+%0D\n %0A%09%3Cname%3E\n@@ -609,16 +609,17 @@\n e%3C/name%3E\n+%0D\n %0A%09%3Cdescr\n@@ -671,16 +671,17 @@\n ion%3E\n+%0D\n %0A%09%3Curl/%3E\n %0A%09%3Cl\n@@ -676,16 +676,17 @@\n %0A%09%3Curl/%3E\n+%0D\n %0A%09%3Clicen\n@@ -689,16 +689,17 @@\n icenses%3E\n+%0D\n %0A%09%09%3Clice\n@@ -703,16 +703,17 @@\n icense/%3E\n+%0D\n %0A%09%3C/lice\n@@ -717,16 +717,17 @@\n icenses%3E\n+%0D\n %0A%09%3Cdevel\n@@ -732,16 +732,17 @@\n elopers%3E\n+%0D\n %0A%09%09%3Cdeve\n@@ -748,16 +748,17 @@\n eloper/%3E\n+%0D\n %0A%09%3C/deve\n@@ -768,15 +768,17 @@\n ers%3E\n+%0D\n %0A%09%3Cscm%3E\n+%0D\n %0A%09%09%3C\n@@ -785,24 +785,25 @@\n connection/%3E\n+%0D\n %0A%09%09%3Cdevelope\n@@ -815,16 +815,17 @@\n ection/%3E\n+%0D\n %0A%09%09%3Ctag/\n@@ -825,16 +825,17 @@\n %09%09%3Ctag/%3E\n+%0D\n %0A%09%09%3Curl/\n@@ -839,16 +839,17 @@\n rl/%3E\n+%0D\n %0A%09%3C/scm%3E\n %0A%09%3Cp\n@@ -844,16 +844,17 @@\n %0A%09%3C/scm%3E\n+%0D\n %0A%09%3Cprope\n@@ -855,24 +855,25 @@\n %3Cproperties%3E\n+%0D\n %0A%09%09%3Cjava.ver\n@@ -894,16 +894,17 @@\n version%3E\n+%0D\n %0A%09%3C/prop\n@@ -910,16 +910,17 @@\n perties%3E\n+%0D\n %0A%09%3Cdepen\n@@ -927,16 +927,17 @@\n dencies%3E\n+%0D\n %0A%09%09%3Cdepe\n@@ -935,32 +935,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -983,32 +983,33 @@\n k.boot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1041,32 +1041,33 @@\n jpa%3C/artifactId%3E\n+%0D\n %0A%09%09%3C/dependency%3E\n@@ -1058,32 +1058,33 @@\n %0A%09%09%3C/dependency%3E\n+%0D\n %0A%09%09%3Cdependency%3E%0A\n@@ -1074,32 +1074,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1122,32 +1122,33 @@\n k.boot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1175,32 +1175,33 @@\n web%3C/artifactId%3E\n+%0D\n %0A%09%09%3C/dependency%3E\n@@ -1200,17 +1200,19 @@\n endency%3E\n-%0A\n+%0D%0A%0D\n %0A%09%09%3Cdepe\n@@ -1210,32 +1210,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1258,32 +1258,33 @@\n k.boot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1308,32 +1308,33 @@\n ols%3C/artifactId%3E\n+%0D\n %0A%09%09%09%3Cscope%3Erunti\n@@ -1343,16 +1343,17 @@\n %3C/scope%3E\n+%0D\n %0A%09%09%09%3Copt\n@@ -1365,32 +1365,33 @@\n %3Etrue%3C/optional%3E\n+%0D\n %0A%09%09%3C/dependency%3E\n@@ -1382,32 +1382,33 @@\n %0A%09%09%3C/dependency%3E\n+%0D\n %0A%09%09%3Cdependency%3E%0A\n@@ -1398,32 +1398,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1436,32 +1436,33 @@\n gresql%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1476,32 +1476,33 @@\n sql%3C/artifactId%3E\n+%0D\n %0A%09%09%09%3Cscope%3Erunti\n@@ -1503,32 +1503,33 @@\n %3Eruntime%3C/scope%3E\n+%0D\n %0A%09%09%3C/dependency%3E\n@@ -1520,32 +1520,33 @@\n %0A%09%09%3C/dependency%3E\n+%0D\n %0A%09%09%3Cdependency%3E%0A\n@@ -1536,32 +1536,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1577,32 +1577,33 @@\n lombok%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1617,24 +1617,25 @@\n /artifactId%3E\n+%0D\n %0A%09%09%09%3Coptiona\n@@ -1651,16 +1651,17 @@\n ptional%3E\n+%0D\n %0A%09%09%3C/dep\n@@ -1660,32 +1660,33 @@\n %0A%09%09%3C/dependency%3E\n+%0D\n %0A%09%09%3Cdependency%3E%0A\n@@ -1676,32 +1676,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1724,32 +1724,33 @@\n k.boot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1782,24 +1782,25 @@\n /artifactId%3E\n+%0D\n %0A%09%09%09%3Cscope%3Et\n@@ -1810,16 +1810,17 @@\n %3C/scope%3E\n+%0D\n %0A%09%09%3C/dep\n@@ -1819,32 +1819,33 @@\n %0A%09%09%3C/dependency%3E\n+%0D\n %0A%09%09%3Cdependency%3E%0A\n@@ -1835,32 +1835,33 @@\n %0D%0A%09%09%3Cdependency%3E\n+%0D\n %0A%09%09%09%3CgroupId%3Eorg\n@@ -1883,32 +1883,33 @@\n k.boot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3CartifactId%3E\n@@ -1941,32 +1941,33 @@\n jpa%3C/artifactId%3E\n+%0D\n %0A%09%09%3C/dependency%3E\n@@ -1966,16 +1966,17 @@\n endency%3E\n+%0D\n %0A%09%09%3Cdepe\n@@ -1982,16 +1982,17 @@\n endency%3E\n+%0D\n %0A%09%09%09%3Cgro\n@@ -2026,24 +2026,25 @@\n ot%3C/groupId%3E\n+%0D\n %0A%09%09%09%3Cartifac\n@@ -2088,16 +2088,17 @@\n ifactId%3E\n+%0D\n %0A%09%09%3C/dep\n@@ -2105,16 +2105,170 @@\n endency%3E\n+%0D%0A%09%09%3Cdependency%3E%0D%0A%09%09%09%3CgroupId%3Eorg.springframework.boot%3C/groupId%3E%0D%0A%09%09%09%3CartifactId%3Espring-boot-starter-oauth2-resource-server%3C/artifactId%3E%0D%0A%09%09%3C/dependency%3E%0D\n %0A%09%3C/depe\n@@ -2276,17 +2276,19 @@\n dencies%3E\n-%0A\n+%0D%0A%0D\n %0A%09%3Cbuild\n@@ -2288,16 +2288,17 @@\n %09%3Cbuild%3E\n+%0D\n %0A%09%09%3Cplug\n@@ -2301,16 +2301,17 @@\n plugins%3E\n+%0D\n %0A%09%09%09%3Cplu\n@@ -2306,32 +2306,33 @@\n ns%3E%0D%0A%09%09%09%3Cplugin%3E\n+%0D\n %0A%09%09%09%09%3CgroupId%3Eor\n@@ -2355,32 +2355,33 @@\n lugins%3C/groupId%3E\n+%0D\n %0A%09%09%09%09%3CartifactId\n@@ -2407,32 +2407,33 @@\n gin%3C/artifactId%3E\n+%0D\n %0A%09%09%09%09%3Cconfigurat\n@@ -2432,24 +2432,25 @@\n nfiguration%3E\n+%0D\n %0A%09%09%09%09%09%3Cannot\n@@ -2465,24 +2465,25 @@\n cessorPaths%3E\n+%0D\n %0A%09%09%09%09%09%09%3Cpath\n@@ -2479,24 +2479,25 @@\n %09%09%09%09%09%09%3Cpath%3E\n+%0D\n %0A%09%09%09%09%09%09%09%3Cgro\n@@ -2520,32 +2520,33 @@\n lombok%3C/groupId%3E\n+%0D\n %0A%09%09%09%09%09%09%09%3Cartifac\n@@ -2560,32 +2560,33 @@\n bok%3C/artifactId%3E\n+%0D\n %0A%09%09%09%09%09%09%3C/path%3E%0A%09\n@@ -2583,16 +2583,17 @@\n %09%3C/path%3E\n+%0D\n %0A%09%09%09%09%09%3C/\n@@ -2617,16 +2617,17 @@\n orPaths%3E\n+%0D\n %0A%09%09%09%09%3C/c\n@@ -2631,32 +2631,33 @@\n %3C/configuration%3E\n+%0D\n %0A%09%09%09%3C/plugin%3E%0A%09%09\n@@ -2649,24 +2649,25 @@\n %09%09%09%3C/plugin%3E\n+%0D\n %0A%09%09%09%3Cplugin%3E\n@@ -2666,16 +2666,17 @@\n %3Cplugin%3E\n+%0D\n %0A%09%09%09%09%3Cgr\n@@ -2711,24 +2711,25 @@\n ot%3C/groupId%3E\n+%0D\n %0A%09%09%09%09%3Cartifa\n@@ -2766,24 +2766,25 @@\n /artifactId%3E\n+%0D\n %0A%09%09%09%09%3Cconfig\n@@ -2787,24 +2787,25 @@\n nfiguration%3E\n+%0D\n %0A%09%09%09%09%09%3Cexclu\n@@ -2804,24 +2804,25 @@\n %09%09%3Cexcludes%3E\n+%0D\n %0A%09%09%09%09%09%09%3Cexcl\n@@ -2821,24 +2821,25 @@\n %09%09%09%3Cexclude%3E\n+%0D\n %0A%09%09%09%09%09%09%09%3Cgro\n@@ -2870,16 +2870,17 @@\n groupId%3E\n+%0D\n %0A%09%09%09%09%09%09%09\n@@ -2910,16 +2910,17 @@\n ifactId%3E\n+%0D\n %0A%09%09%09%09%09%09%3C\n@@ -2928,16 +2928,17 @@\n exclude%3E\n+%0D\n %0A%09%09%09%09%09%3C/\n@@ -2946,16 +2946,17 @@\n xcludes%3E\n+%0D\n %0A%09%09%09%09%3C/c\n@@ -2968,16 +2968,17 @@\n uration%3E\n+%0D\n %0A%09%09%09%3C/pl\n@@ -2982,16 +2982,17 @@\n /plugin%3E\n+%0D\n %0A%09%09%3C/plu\n@@ -2996,16 +2996,17 @@\n plugins%3E\n+%0D\n %0A%09%3C/buil\n@@ -3007,17 +3007,19 @@\n %3C/build%3E\n-%0A\n+%0D%0A%0D\n %0A%3C/proje\n@@ -3021,9 +3021,8 @@\n project%3E\n-%0A\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                },
+                {
+                    "type": "shellCommand",
+                    "command": "Set-Location \"D:/HK7/DoAn/student-life-backend/demo\"; mvn clean compile",
+                    "id": "5160fb12-7d89-4943-8d49-ae2c43137250",
+                    "status": "CONFIRMATION",
+                    "toolCallId": "toolu_01KLZTVibmeKnye7HoCM1PNQ",
+                    "commandsRequiringConfirmation": [
+                        {
+                            "name": "set-location",
+                            "arguments": []
+                        },
+                        {
+                            "name": "mvn",
+                            "arguments": [
+                                "clean",
+                                "compile"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "6d027abc-87ac-4abb-9c46-d7ee0ff70355"
+            },
+            "createdAt": 1758766714712,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}
