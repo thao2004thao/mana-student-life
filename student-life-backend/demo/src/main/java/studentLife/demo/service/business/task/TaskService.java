@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import studentLife.demo.domain.task.TaskEntity;
 import studentLife.demo.domain.course.CourseEntity;
+import studentLife.demo.enums.task.TaskPriority;
+import studentLife.demo.enums.task.TaskStatus;
 import studentLife.demo.repository.task.TaskRepository;
 import studentLife.demo.repository.course.CourseRepository;
 import studentLife.demo.service.ResponseDTO;
@@ -48,8 +50,8 @@ public class TaskService {
 
         if(dto.getTitle() != null) entity.setTitle(dto.getTitle());
         if(dto.getDescription() != null) entity.setDescription(dto.getDescription());
-        if(dto.getStatus() != null) entity.setStatus(dto.getStatus());
-        if(dto.getPriority() != null) entity.setPriority(dto.getPriority());
+        if(dto.getStatus() != null) entity.setStatus(TaskStatus.valueOf(dto.getStatus()));
+        if(dto.getPriority() != null) entity.setPriority(TaskPriority.valueOf(dto.getPriority()));
         if(dto.getDeadline() != null) entity.setDeadline(dto.getDeadline());
         if(dto.getCourseId() != null) {
             CourseEntity course = courseRepository.findById(dto.getCourseId())

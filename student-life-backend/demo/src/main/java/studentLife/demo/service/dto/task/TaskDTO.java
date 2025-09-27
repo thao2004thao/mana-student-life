@@ -29,8 +29,8 @@ public class TaskDTO extends AbstractDTO<String> {
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setDeadline(entity.getDeadline());
-        dto.setStatus(entity.getStatus());
-        dto.setPriority(entity.getPriority());
+        dto.setStatus(String.valueOf(entity.getStatus()));
+        dto.setPriority(String.valueOf(entity.getPriority()));
         dto.setCourseId(entity.getCourse() != null ? entity.getCourse().getId() : null);
         dto.setCreatedBy(entity.getCreatedBy());
         dto.setCreatedDate(entity.getCreatedDate());

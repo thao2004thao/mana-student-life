@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.course.CourseEntity;
+import studentLife.demo.enums.task.TaskPriority;
+import studentLife.demo.enums.task.TaskStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="task")
+@Table(name="tbl_task")
 @EntityListeners(AuditingEntityListener.class)
 public class TaskEntity extends AbstractEntity implements Serializable {
     @Id
@@ -25,21 +27,21 @@ public class TaskEntity extends AbstractEntity implements Serializable {
     private String id;
 
     @Column(name = "title")
-    private String title; // tiêu đề công việc
+    private String title;
 
     @Column(name = "description")
-    private String description; // mô tả chi tiết
+    private String description;
 
     @Column(name = "deadline")
-    private LocalDateTime deadline; // hạn nộp / hạn hoàn thành
+    private LocalDateTime deadline;
 
     @Column(name = "status")
-    private String status; // trạng thái: TODO, IN_PROGRESS, DONE
+    private TaskStatus status;
 
     @Column(name = "priority")
-    private String priority; // mức độ ưu tiên: LOW, MEDIUM, HIGH
+    private TaskPriority priority;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    private CourseEntity course; // liên kết với môn học
+    private CourseEntity course;
 }

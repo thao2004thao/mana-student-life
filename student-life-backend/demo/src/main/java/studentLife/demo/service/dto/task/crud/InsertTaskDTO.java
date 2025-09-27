@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import studentLife.demo.domain.task.TaskEntity;
+import studentLife.demo.enums.task.TaskPriority;
+import studentLife.demo.enums.task.TaskStatus;
 
 import java.time.LocalDateTime;
 
@@ -26,8 +28,8 @@ public class InsertTaskDTO {
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setDeadline(dto.getDeadline());
-        entity.setStatus(dto.getStatus());
-        entity.setPriority(dto.getPriority());
+        entity.setStatus(TaskStatus.valueOf(dto.getStatus()));
+        entity.setPriority(TaskPriority.valueOf(dto.getPriority()));
         return entity;
     }
 }

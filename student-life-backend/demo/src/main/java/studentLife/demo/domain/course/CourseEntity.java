@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "course")
+@Table(name = "tbl_course")
 @EntityListeners(AuditingEntityListener.class)
 public class CourseEntity extends AbstractEntity implements Serializable {
 
@@ -42,7 +42,6 @@ public class CourseEntity extends AbstractEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    // Quan hệ với Task
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskEntity> tasks;
 

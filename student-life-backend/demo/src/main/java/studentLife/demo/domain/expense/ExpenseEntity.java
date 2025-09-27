@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "expense")
+@Table(name = "tbl_expense")
 @EntityListeners(AuditingEntityListener.class)
 public class ExpenseEntity extends AbstractEntity implements Serializable {
 
@@ -30,10 +30,10 @@ public class ExpenseEntity extends AbstractEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private ExpenseCategory category; // loại chi tiêu (ăn uống, học tập, đi lại, giải trí,...)
+    private ExpenseCategory category;
 
     @Column(name = "description")
-    private String description; // mô tả thêm
+    private String description;
 
     @Column(name = "expense_date", nullable = false)
     private LocalDateTime expenseDate; // ngày giờ chi tiêu
