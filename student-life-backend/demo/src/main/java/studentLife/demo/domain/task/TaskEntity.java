@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="tbl_task")
+@Table(name="task")
 @EntityListeners(AuditingEntityListener.class)
 public class TaskEntity extends AbstractEntity implements Serializable {
     @Id
@@ -36,9 +36,11 @@ public class TaskEntity extends AbstractEntity implements Serializable {
     private LocalDateTime deadline;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @Column(name = "priority")
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
     @ManyToOne

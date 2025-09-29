@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tbl_expense")
+@Table(name = "expense")
 @EntityListeners(AuditingEntityListener.class)
 public class ExpenseEntity extends AbstractEntity implements Serializable {
 

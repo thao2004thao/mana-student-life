@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "tbl_course")
+@Table(name = "course")
 @EntityListeners(AuditingEntityListener.class)
 public class CourseEntity extends AbstractEntity implements Serializable {
 
