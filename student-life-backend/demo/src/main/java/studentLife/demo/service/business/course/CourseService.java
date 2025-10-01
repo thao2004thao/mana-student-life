@@ -58,6 +58,7 @@ public class CourseService {
         courseEntity.setRoom(courseDTO.getRoom());
         courseEntity.setDayWeek(courseDTO.getDayWeek());
         courseEntity.setTimeStudy(courseDTO.getTimeStudy());
+        courseEntity.setTimeStudyEnd(courseDTO.getTimeStudyEnd());
         courseEntity.setColor(courseDTO.getColor());
 
         courseEntity = courseRepository.save(courseEntity);
@@ -93,6 +94,7 @@ public class CourseService {
                     dto.getDayWeek(),
                     dto.getColor(),
                     dto.getTimeStudy(),
+                    dto.getTimeStudyEnd(),
                     pageable
             );
 

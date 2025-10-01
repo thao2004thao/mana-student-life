@@ -1,6 +1,5 @@
 package studentLife.demo.repository.course;
 
-import jakarta.persistence.Entity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,7 +32,7 @@ WHERE (:nameCourse IS NULL OR LOWER(c.nameCourse) LIKE LOWER(CONCAT('%', :nameCo
             @Param("dayWeek") String dayWeek,
             @Param("color") String color,
             @Param("timeStudy") LocalDateTime timeStudy,
-            Pageable pageable
+            LocalDateTime timeStudyEnd, Pageable pageable
     );
 
 

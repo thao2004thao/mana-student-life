@@ -17,6 +17,7 @@ public class UpdateCourseDTO {
     private String room;
     private String dayWeek;
     private LocalDateTime timeStudy;
+    private LocalDateTime timeStudyEnd;
     private String color;
 
     public static CourseEntity toEntity(UpdateCourseDTO updateCourseDTO){
@@ -29,6 +30,7 @@ public class UpdateCourseDTO {
         courseEntity.setDescription(updateCourseDTO.getDescription());
         courseEntity.setNameCourse(updateCourseDTO.getNameCourse());
         courseEntity.setTimeStudy(updateCourseDTO.getTimeStudy());
+        courseEntity.setTimeStudyEnd(updateCourseDTO.getTimeStudyEnd());
         return courseEntity;
 
     }

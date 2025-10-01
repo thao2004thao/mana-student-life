@@ -12,6 +12,9 @@ public class RegisterDTO {
     private String id;
     private String userName;
     private String email;
+    private String university;
+    private String major;
+    private Integer yearOfStudy;
     private String password;
     private String rePassword;
 

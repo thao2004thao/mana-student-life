@@ -14,6 +14,9 @@ public class UserDTO extends AbstractDTO<String> {
     private String id;
     private String userName;
     private String email;
+    private String university;
+    private String major;
+    private Integer yearOfStudy;
     private String password;
     private String rePassword;
 
@@ -24,6 +27,9 @@ public class UserDTO extends AbstractDTO<String> {
         userDTO.setId(userEntity.getId());
         userDTO.setUserName(userEntity.getUserName());
         userDTO.setEmail(userEntity.getEmail());
+        userDTO.setUniversity(userEntity.getUniversity());
+        userDTO.setMajor(userEntity.getMajor());
+        userDTO.setYearOfStudy(userEntity.getYearOfStudy());
         userDTO.setPassword(userEntity.getPassword());
         userDTO.setRePassword(userEntity.getRePassword());
         userDTO.setCreatedBy(userEntity.getCreatedBy());

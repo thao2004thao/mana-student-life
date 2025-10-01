@@ -35,6 +35,8 @@ public class CourseEntity extends AbstractEntity implements Serializable {
     private String dayWeek;
     @Column(name = "time_study")
     private LocalDateTime timeStudy;
+    @Column(name = "time_study_end")
+    private LocalDateTime timeStudyEnd;
     @Column(name = "color")
     private String color;
 

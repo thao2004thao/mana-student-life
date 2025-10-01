@@ -18,6 +18,7 @@ public class SearchCourseDTO {
     private String room;
     private String dayWeek;
     private LocalDateTime timeStudy;
+    private LocalDateTime timeStudyEnd;
     private String color;
 
 

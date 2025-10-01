@@ -19,6 +19,7 @@ public class CourseDTO extends AbstractDTO<String> {
     private String room;
     private String dayWeek;
     private LocalDateTime timeStudy;
+    private LocalDateTime timeStudyEnd;
     private String color;
 
     public static CourseDTO toDTO(CourseEntity entity) {
@@ -31,6 +32,7 @@ public class CourseDTO extends AbstractDTO<String> {
         dto.setRoom(entity.getRoom());
         dto.setDayWeek(entity.getDayWeek());
         dto.setTimeStudy(entity.getTimeStudy());
+        dto.setTimeStudyEnd(entity.getTimeStudyEnd());
         dto.setColor(entity.getColor());
         dto.setCreatedBy(entity.getCreatedBy());
         dto.setCreatedDate(entity.getCreatedDate());

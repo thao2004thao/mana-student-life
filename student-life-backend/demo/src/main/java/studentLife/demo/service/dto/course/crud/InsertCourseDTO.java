@@ -17,6 +17,7 @@ public class InsertCourseDTO {
     private String room;
     private String dayWeek;
     private LocalDateTime timeStudy;
+    private LocalDateTime timeStudyEnd;
     private String color;
 
     public static CourseEntity toEntity(InsertCourseDTO courseDTO){
@@ -29,6 +30,7 @@ public class InsertCourseDTO {
         courseEntity.setDescription(courseDTO.getDescription());
         courseEntity.setNameCourse(courseDTO.getNameCourse());
         courseEntity.setTimeStudy(courseDTO.getTimeStudy());
+        courseEntity.setTimeStudyEnd(courseDTO.getTimeStudyEnd());
         return courseEntity;
     }
 }
