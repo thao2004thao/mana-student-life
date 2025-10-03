@@ -44,7 +44,5 @@ public class CourseEntity extends AbstractEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TaskEntity> tasks;
 
 }

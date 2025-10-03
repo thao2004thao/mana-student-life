@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import studentLife.demo.domain.course.CourseEntity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Repository
@@ -16,14 +17,16 @@ public interface CourseRepository extends JpaRepository<CourseEntity, String> {
     CourseEntity findOneById(String id);
     CourseEntity findOneByNameCourse(String nameCourse);
 
+
     @Query("""
-SELECT c FROM CourseEntity c
-WHERE (:nameCourse IS NULL OR LOWER(c.nameCourse) LIKE LOWER(CONCAT('%', :nameCourse, '%')))
-  AND (:description IS NULL OR LOWER(c.description) LIKE LOWER(CONCAT('%', :description, '%')))
-  AND (:room IS NULL OR LOWER(c.room) LIKE LOWER(CONCAT('%', :room, '%')))
-  AND (:dayWeek IS NULL OR LOWER(c.dayWeek) LIKE LOWER(CONCAT('%', :dayWeek, '%')))
-  AND (:color IS NULL OR LOWER(c.color) LIKE LOWER(CONCAT('%', :color, '%')))
-  AND (:timeStudy IS NULL OR c.timeStudy = :timeStudy)
+    SELECT c FROM CourseEntity c
+    WHERE c.nameCourse = COALESCE(:nameCourse, c.nameCourse)
+      AND c.description = COALESCE(:description, c.description)
+      AND c.room = COALESCE(:room, c.room)
+      AND c.dayWeek = COALESCE(:dayWeek, c.dayWeek)
+      AND c.color = COALESCE(:color, c.color)
+      AND c.timeStudy = COALESCE(:timeStudy, c.timeStudy)
+      AND c.timeStudyEnd = COALESCE(:timeStudyEnd, c.timeStudyEnd)
 """)
     Page<CourseEntity> searchCourses(
             @Param("nameCourse") String nameCourse,
@@ -32,8 +35,10 @@ WHERE (:nameCourse IS NULL OR LOWER(c.nameCourse) LIKE LOWER(CONCAT('%', :nameCo
             @Param("dayWeek") String dayWeek,
             @Param("color") String color,
             @Param("timeStudy") LocalDateTime timeStudy,
-            LocalDateTime timeStudyEnd, Pageable pageable
+            @Param("timeStudyEnd") LocalDateTime timeStudyEnd,
+            Pageable pageable
     );
+
 
 
 }

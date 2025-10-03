@@ -29,12 +29,7 @@ public class TaskService {
 
     @Transactional
     public ResponseDTO<TaskDTO> addTask(InsertTaskDTO dto) {
-        CourseEntity course = courseRepository.findById(dto.getCourseId())
-                .orElseThrow(() -> new RuntimeException("Course không tồn tại"));
-
         TaskEntity entity = InsertTaskDTO.toEntity(dto);
-        entity.setCourse(course);
-
         entity = taskRepository.save(entity);
 
         ResponseDTO<TaskDTO> response = new ResponseDTO<>();
@@ -53,11 +48,6 @@ public class TaskService {
         if(dto.getStatus() != null) entity.setStatus(TaskStatus.valueOf(dto.getStatus()));
         if(dto.getPriority() != null) entity.setPriority(TaskPriority.valueOf(dto.getPriority()));
         if(dto.getDeadline() != null) entity.setDeadline(dto.getDeadline());
-        if(dto.getCourseId() != null) {
-            CourseEntity course = courseRepository.findById(dto.getCourseId())
-                    .orElseThrow(() -> new RuntimeException("Course không tồn tại"));
-            entity.setCourse(course);
-        }
 
         entity = taskRepository.save(entity);
 

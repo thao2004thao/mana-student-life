@@ -15,6 +15,9 @@ import studentLife.demo.service.dto.course.CourseDTO;
 import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
 import studentLife.demo.service.dto.course.crud.SearchCourseDTO;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class CourseService {
 
@@ -83,26 +86,32 @@ public class CourseService {
         return responseDTO;
     }
 
-        @Transactional(readOnly = true)
-        public ResponseDTO<Page<CourseDTO>> searchCourses(SearchCourseDTO dto) {
-            var pageable = PageRequest.of(dto.getPageIndex(), dto.getPageSize());
+    @Transactional(readOnly = true)
+    public ResponseDTO<List<CourseDTO>> searchCourses(SearchCourseDTO dto) {
+        var pageable = PageRequest.of(dto.getPageIndex(), dto.getPageSize());
 
-            Page<CourseEntity> page = courseRepository.searchCourses(
-                    dto.getNameCourse(),
-                    dto.getDescription(),
-                    dto.getRoom(),
-                    dto.getDayWeek(),
-                    dto.getColor(),
-                    dto.getTimeStudy(),
-                    dto.getTimeStudyEnd(),
-                    pageable
-            );
+        Page<CourseEntity> page = courseRepository.searchCourses(
+                dto.getNameCourse(),
+                dto.getDescription() != null ? dto.getDescription() : "",
+                dto.getRoom() != null ? dto.getRoom() : "",
+                dto.getDayWeek() != null ? dto.getDayWeek() : "",
+                dto.getColor() != null ? dto.getColor() : "",
+                dto.getTimeStudy() != null ? dto.getTimeStudy() : LocalDateTime.now(),
+                dto.getTimeStudyEnd() != null ? dto.getTimeStudyEnd() : LocalDateTime.now(),
+                pageable
+        );
 
-            ResponseDTO<Page<CourseDTO>> responseDTO = new ResponseDTO<>();
-            responseDTO.setData(page.map(CourseDTO::toDTO));
-            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
-            return responseDTO;
-        }
+        // Lấy danh sách CourseDTO
+        List<CourseDTO> courseList = page.stream()
+                .map(CourseDTO::toDTO)
+                .toList();
+
+        ResponseDTO<List<CourseDTO>> responseDTO = new ResponseDTO<>();
+        responseDTO.setData(courseList);
+        responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+        return responseDTO;
+    }
+
 }
 
 

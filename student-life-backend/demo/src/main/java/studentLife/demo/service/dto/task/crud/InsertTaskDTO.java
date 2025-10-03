@@ -19,7 +19,6 @@ public class InsertTaskDTO {
     private LocalDateTime deadline;
     private String status;
     private String priority;
-    private String courseId;
 
     public static TaskEntity toEntity(InsertTaskDTO dto) {
         if (dto == null) return null;

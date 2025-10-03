@@ -19,7 +19,6 @@ public class TaskDTO extends AbstractDTO<String> {
     private LocalDateTime deadline;
     private String status;
     private String priority;
-    private String courseId;
 
     public static TaskDTO toDTO(TaskEntity entity) {
         if (entity == null) return null;
@@ -31,7 +30,6 @@ public class TaskDTO extends AbstractDTO<String> {
         dto.setDeadline(entity.getDeadline());
         dto.setStatus(String.valueOf(entity.getStatus()));
         dto.setPriority(String.valueOf(entity.getPriority()));
-        dto.setCourseId(entity.getCourse() != null ? entity.getCourse().getId() : null);
         dto.setCreatedBy(entity.getCreatedBy());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setLastModifiedBy(entity.getLastModifiedBy());

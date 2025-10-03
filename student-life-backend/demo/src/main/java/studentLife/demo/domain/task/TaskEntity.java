@@ -43,7 +43,5 @@ public class TaskEntity extends AbstractEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private CourseEntity course;
+
 }

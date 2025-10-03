@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,9 +18,9 @@ public class SearchCourseDTO {
     private String description;
     private String room;
     private String dayWeek;
+    private String color;
     private LocalDateTime timeStudy;
     private LocalDateTime timeStudyEnd;
-    private String color;
 
 
 }

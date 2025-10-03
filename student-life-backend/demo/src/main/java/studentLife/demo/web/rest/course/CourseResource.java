@@ -8,6 +8,8 @@ import studentLife.demo.service.dto.course.CourseDTO;
 import studentLife.demo.service.dto.course.crud.InsertCourseDTO;
 import studentLife.demo.service.dto.course.crud.SearchCourseDTO;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/courses")
 public class CourseResource {
@@ -34,7 +36,7 @@ public class CourseResource {
         return courseService.deleteCourse(courseId);
     }
     @PostMapping("/search")
-    public ResponseDTO<Page<CourseDTO>> searchCourses(@RequestBody SearchCourseDTO dto) {
+    public ResponseDTO<List<CourseDTO>> searchCourses(@RequestBody SearchCourseDTO dto) {
         return courseService.searchCourses(dto);
     }
 
