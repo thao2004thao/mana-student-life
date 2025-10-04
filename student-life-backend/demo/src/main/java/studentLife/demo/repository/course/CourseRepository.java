@@ -10,6 +10,7 @@ import studentLife.demo.domain.course.CourseEntity;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<CourseEntity, String> {
@@ -38,6 +39,10 @@ public interface CourseRepository extends JpaRepository<CourseEntity, String> {
             @Param("timeStudyEnd") LocalDateTime timeStudyEnd,
             Pageable pageable
     );
+
+    @Query("SELECT c FROM CourseEntity c WHERE c.user.id = :userId")
+    List<CourseEntity> findAllByUserId(@Param("userId") String userId);
+
 
 
 

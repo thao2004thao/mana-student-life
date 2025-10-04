@@ -39,6 +39,11 @@ public class CourseResource {
     public ResponseDTO<List<CourseDTO>> searchCourses(@RequestBody SearchCourseDTO dto) {
         return courseService.searchCourses(dto);
     }
+    @GetMapping("/my-courses")
+    public ResponseDTO<List<CourseDTO>> getMyCourses() {
+        return courseService.getCoursesOfCurrentUser();
+    }
+
 
 
 }

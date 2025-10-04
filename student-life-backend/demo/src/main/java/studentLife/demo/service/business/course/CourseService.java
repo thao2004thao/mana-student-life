@@ -111,6 +111,28 @@ public class CourseService {
         responseDTO.setStatus(String.valueOf(HttpStatus.OK));
         return responseDTO;
     }
+    @Transactional(readOnly = true)
+    public ResponseDTO<List<CourseDTO>> getCoursesOfCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Tìm user theo username
+        var user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("User không tồn tại"));
+
+        // Lấy danh sách course theo userId
+        List<CourseEntity> courses = courseRepository.findAllByUserId(user.getId());
+
+        List<CourseDTO> courseDTOs = courses.stream()
+                .map(CourseDTO::toDTO)
+                .toList();
+
+        ResponseDTO<List<CourseDTO>> response = new ResponseDTO<>();
+        response.setData(courseDTOs);
+        response.setStatus(String.valueOf(HttpStatus.OK));
+        return response;
+    }
+
 
 }
 
