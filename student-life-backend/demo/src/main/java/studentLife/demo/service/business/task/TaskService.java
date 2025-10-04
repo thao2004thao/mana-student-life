@@ -16,6 +16,8 @@ import studentLife.demo.service.dto.task.TaskDTO;
 import studentLife.demo.service.dto.task.crud.InsertTaskDTO;
 import studentLife.demo.service.dto.task.crud.SearchTaskDTO;
 
+import java.util.List;
+
 @Service
 public class TaskService {
 
@@ -71,7 +73,7 @@ public class TaskService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseDTO<Page<TaskDTO>> searchTasks(SearchTaskDTO dto) {
+    public ResponseDTO<List<TaskDTO>> searchTasks(SearchTaskDTO dto) {
         var pageable = PageRequest.of(dto.getPageIndex(), dto.getPageSize());
 
         Page<TaskEntity> page = taskRepository.searchTasks(
@@ -83,9 +85,15 @@ public class TaskService {
                 pageable
         );
 
-        ResponseDTO<Page<TaskDTO>> response = new ResponseDTO<>();
-        response.setData(page.map(TaskDTO::toDTO));
+        List<TaskDTO> taskDTOs = page.getContent()
+                .stream()
+                .map(TaskDTO::toDTO)
+                .toList();
+
+        ResponseDTO<List<TaskDTO>> response = new ResponseDTO<>();
+        response.setData(taskDTOs);
         response.setStatus(String.valueOf(HttpStatus.OK));
         return response;
     }
+
 }

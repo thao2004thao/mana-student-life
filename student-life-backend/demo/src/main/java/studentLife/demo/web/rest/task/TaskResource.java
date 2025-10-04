@@ -8,6 +8,8 @@ import studentLife.demo.service.dto.task.TaskDTO;
 import studentLife.demo.service.dto.task.crud.InsertTaskDTO;
 import studentLife.demo.service.dto.task.crud.SearchTaskDTO;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskResource {
@@ -35,7 +37,7 @@ public class TaskResource {
     }
 
     @PostMapping("/search")
-    public ResponseDTO<Page<TaskDTO>> searchTasks(@RequestBody SearchTaskDTO dto) {
+    public ResponseDTO<List<TaskDTO>> searchTasks(@RequestBody SearchTaskDTO dto) {
         return taskService.searchTasks(dto);
     }
 }

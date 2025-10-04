@@ -17,12 +17,12 @@ public interface TaskRepository extends JpaRepository<TaskEntity, String> {
 
     @Query("""
     SELECT t FROM TaskEntity t
-    WHERE (:title IS NULL OR LOWER(t.title) LIKE LOWER(CONCAT('%', :title, '%')))
-      AND (:description IS NULL OR LOWER(t.description) LIKE LOWER(CONCAT('%', :description, '%')))
-      AND (:status IS NULL OR t.status = :status)
-      AND (:priority IS NULL OR t.priority = :priority)
-      AND (:deadline IS NULL OR t.deadline = :deadline)
-    """)
+    WHERE t.title = COALESCE(:title, t.title)
+      AND t.description = COALESCE(:description, t.description)
+      AND t.status = COALESCE(:status, t.status)
+      AND t.priority = COALESCE(:priority, t.priority)
+      AND t.deadline = COALESCE(:deadline, t.deadline)
+""")
     Page<TaskEntity> searchTasks(
             @Param("title") String title,
             @Param("description") String description,
@@ -31,4 +31,5 @@ public interface TaskRepository extends JpaRepository<TaskEntity, String> {
             @Param("deadline") LocalDateTime deadline,
             Pageable pageable
     );
+
 }
