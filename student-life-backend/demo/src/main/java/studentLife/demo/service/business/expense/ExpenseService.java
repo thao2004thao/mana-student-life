@@ -80,14 +80,17 @@ public class ExpenseService {
     public ResponseDTO<Page<ExpenseDTO>> searchExpenses(SearchExpenseDTO dto) {
         var pageable = PageRequest.of(dto.getPageIndex(), dto.getPageSize());
 
+        var username = currentUsername();
+
         Page<ExpenseEntity> page = expenseRepository.searchExpenses(
-                dto.getCategory() != null ? dto.getCategory().name() : null,
+                dto.getCategory(),
                 dto.getMinAmount(),
                 dto.getMaxAmount(),
                 dto.getDescription(),
                 dto.getStartDate(),
                 dto.getEndDate(),
                 dto.getPaymentMethod(),
+                username,
                 pageable
         );
 
@@ -95,5 +98,10 @@ public class ExpenseService {
         response.setData(page.map(ExpenseDTO::toDTO));
         response.setStatus(String.valueOf(HttpStatus.OK));
         return response;
+    }
+
+    private String currentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
 }

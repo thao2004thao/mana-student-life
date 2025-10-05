@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import studentLife.demo.domain.expense.ExpenseEntity;
+import studentLife.demo.enums.ExpenseCategory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,22 +19,25 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, String> 
 
     @Query("""
     SELECT e FROM ExpenseEntity e
-    WHERE (:category IS NULL OR e.category = :category)
-      AND (:minAmount IS NULL OR e.amount >= :minAmount)
-      AND (:maxAmount IS NULL OR e.amount <= :maxAmount)
-      AND (:description IS NULL OR LOWER(e.description) LIKE LOWER(CONCAT('%', :description, '%')))
-      AND (:startDate IS NULL OR e.expenseDate >= :startDate)
-      AND (:endDate IS NULL OR e.expenseDate <= :endDate)
-      AND (:paymentMethod IS NULL OR LOWER(e.paymentMethod) LIKE LOWER(CONCAT('%', :paymentMethod, '%')))
+    WHERE e.category = COALESCE(:category, e.category)
+      AND e.amount >= COALESCE(:minAmount, e.amount)
+      AND e.amount <= COALESCE(:maxAmount, e.amount)
+      AND LOWER(e.description) LIKE LOWER(CONCAT('%', COALESCE(:description, e.description), '%'))
+      AND e.expenseDate >= COALESCE(:startDate, e.expenseDate)
+      AND e.expenseDate <= COALESCE(:endDate, e.expenseDate)
+      AND LOWER(e.paymentMethod) LIKE LOWER(CONCAT('%', COALESCE(:paymentMethod, e.paymentMethod), '%'))
+      AND e.user.userName = :username
+    ORDER BY e.expenseDate DESC
     """)
     Page<ExpenseEntity> searchExpenses(
-            @Param("category") String category,
+            @Param("category") ExpenseCategory category,
             @Param("minAmount") BigDecimal minAmount,
             @Param("maxAmount") BigDecimal maxAmount,
             @Param("description") String description,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             @Param("paymentMethod") String paymentMethod,
+            @Param("username") String username,
             Pageable pageable
     );
 }
