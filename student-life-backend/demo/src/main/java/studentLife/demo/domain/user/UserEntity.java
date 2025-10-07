@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import studentLife.demo.domain.AbstractEntity;
 import studentLife.demo.domain.course.CourseEntity;
 import studentLife.demo.domain.expense.ExpenseEntity;
+import studentLife.demo.domain.task.TaskEntity;
 
 
 import java.io.Serializable;
@@ -45,4 +46,7 @@ public class UserEntity extends AbstractEntity implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExpenseEntity> expenses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskEntity> tasks;
 }
