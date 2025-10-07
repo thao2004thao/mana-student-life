@@ -72,6 +72,18 @@ public class UserService extends BaseService {
 
         return responseDTO;
     }
+
+    @Transactional(readOnly = true)
+    public ResponseDTO<UserDTO> getUserProfile(String username) {
+        UserEntity user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
+
+        ResponseDTO<UserDTO> response = new ResponseDTO<>();
+        response.setStatus("200");
+        response.setData(UserDTO.toDTO(user));
+        return response;
+    }
+
 }
 
 
