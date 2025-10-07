@@ -2,10 +2,9 @@ package studentLife.demo.web.rest.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import studentLife.demo.service.ResponseDTO;
 import studentLife.demo.service.business.user.UserService;
 import studentLife.demo.service.dto.user.UserDTO;
@@ -71,5 +70,13 @@ public class UserResource {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
         }
     }
+    @GetMapping("/profile")
+    public ResponseDTO<UserDTO> getCurrentUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        return userService.getUserProfile(username);
+    }
+
 
 }
