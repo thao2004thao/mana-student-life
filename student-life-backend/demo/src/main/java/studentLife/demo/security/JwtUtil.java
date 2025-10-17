@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class JwtUtil {
     private static final String SECRET_KEY = "mySecretKeyThatIsLongEnoughForHS256Algorithm";
-    private static final long ACCESS_EXPIRATION = 1000 * 60 * 15;
+    private static final long ACCESS_EXPIRATION = 1000 * 60 * 60* 24;
     private static final long REFRESH_EXPIRATION = 1000L * 60 * 60 * 24 * 7;
 
     private static final SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

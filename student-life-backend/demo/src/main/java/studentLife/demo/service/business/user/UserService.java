@@ -60,7 +60,7 @@ public class UserService extends BaseService {
             throw new RuntimeException("Sai username hoặc password");
         }
 
-        String token = JwtUtil.generateRefreshToken(user.getUserName());
+        String token = JwtUtil.generateAccessToken(user.getUserName());
 
         LoginResponseDTO loginResponse = new LoginResponseDTO();
         loginResponse.setUserDTO(UserDTO.toDTO(user));
